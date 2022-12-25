@@ -8,11 +8,11 @@ include 'head.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Barang Masuk</h1>
+                        <h1 class="mt-4">Obat Masuk</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                <i class="fa fa-plus-square"></i> Update Barang Masuk
+                                <i class="fa fa-plus-square"></i> Update Obat Masuk
                                 </button>
                             </div>
                             <div class="card-body">
@@ -28,7 +28,7 @@ include 'head.php';
                                         </thead>
                                         <tbody>
                                         <?php
-                                                $ambilsemuadatastock = mysqli_query($conn,"SELECT * from masuk m,supplier p, stock s where s.idbarang = m.idbarang and p.idsup = m.supplier");
+                                                $ambilsemuadatastock = mysqli_query($conn,"SELECT * from masuk m,supplier p, stock s where s.idobat = m.idobat and p.idsup = m.supplier");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $tanggal = $data['tanggal'];
                                                     $namabarang = $data['namabarang'];
@@ -83,7 +83,7 @@ include 'head.php';
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Barang Masuk</h4>
+          <h4 class="modal-title">Obat Masuk</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         

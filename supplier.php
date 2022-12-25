@@ -32,9 +32,9 @@ include 'head.php';
                                                 $ambildatasupplier = mysqli_query($conn,"SELECT * FROM supplier");
                                                 while($data=mysqli_fetch_array($ambildatasupplier)){
                                                     $idsup = $data['idsup'];
-                                                    $namasupplier = $data['namasup'];
+                                                    $namasupplier = $data['nama_supplier'];
                                                     $alamat = $data['alamat'];
-                                                    $notelp = $data['notelp'];    
+                                                    $notelp = $data['no_telp'];    
                                             ?>
                                                 <tr>
                                                     
@@ -119,7 +119,7 @@ include 'head.php';
             $ambildatasupplier = mysqli_query($conn,"SELECT * FROM supplier");
             while($data=mysqli_fetch_array($ambildatasupplier)){
                 $idsup = $data['idsup'];
-                $namasupplier = $data['namasup'];
+                $namasupplier = $data['nama_supplier'];
                 $alamat = $data['alamat'];
                 $notelp = $data['notelp'];
                  
@@ -177,18 +177,20 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
-                <input type="hidden" name="idupdtsup" value="<?=$idsup?>;">
                 Apakah Anda Ingin Menghapus Supplier <?=$namasupplier;?> ?
                 <br>
                 <br>
-                <button type="submit" class="btn btn-primary" name="hapussupplier">Yes</button>
+                
             </form> 
            
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
-            
+          <form method="post">
+            <input type="hidden" name="idupdtsup" value="<?=$idsup?>;">
+            <button type="submit" class="btn btn-primary" name="hapussupplier">Yes</button>
+          </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </div>

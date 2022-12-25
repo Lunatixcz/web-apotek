@@ -11,11 +11,12 @@ if ($conn){
 
 //Menambah Barang
 if(isset($_POST['addnewbarang'])){
-    $namabarang = $_POST['namabarang'];
-    $deskripsi = $_POST['deskripsi'];
-    $stock = $_POST['stock'];
+    $merek_dagang = $_POST['merek_dagang'];
+    $harga = $_POST['harga'];
+    $satuan = $_POST['satuan'];
+    $stock = $_POST[''];
 
-    $addtotable = mysqli_query($conn, "INSERT INTO stock (namabarang,deskripsi,stock) VALUES ('$namabarang','$deskripsi','$stock')");
+    $addtotable = mysqli_query($conn, "INSERT INTO stock (merek_dagang,harga,stock) VALUES ('$merek_dagang','$harga','$stock')");
     
     if($addtotable){
         header('location:index.php');
@@ -75,10 +76,10 @@ if(isset($_POST['barangkeluar'])){
 
 if(isset($_POST['updatebarang'])){
     $idupdt = $_POST['idbaranghapus'];
-    $namabarang = $_POST['namabarang'];
-    $deskripsi = $_POST['deskripsi'];
+    $merek_dagang = $_POST['merek_dagang'];
+    $harga = $_POST['harga'];
  
-    $updatebarang = mysqli_query($conn, "UPDATE stock set namabarang = '$namabarang',deskripsi='$deskripsi' where idbarang = '$idupdt'");
+    $updatebarang = mysqli_query($conn, "UPDATE stock set merek_dagang = '$merek_dagang',harga='$harga' where idbarang = '$idupdt'");
 
     if($updatebarang){
         header('location:index.php');
@@ -108,7 +109,7 @@ if(isset($_POST['tambahsupplier'])){
     $alamat = $_POST['alamat'];
     $tel = $_POST['tel'];
 
-    $addtosupplier = mysqli_query($conn, "INSERT INTO supplier (namasup,alamat,notelp) VALUES ('$namasupplier','$alamat','$tel')");
+    $addtosupplier = mysqli_query($conn, "INSERT INTO supplier (nama_supplier,alamat,no_telp) VALUES ('$namasupplier','$alamat','$tel')");
 
     if($addtosupplier){
         header('location:supplier.php');
@@ -124,7 +125,7 @@ if(isset($_POST['updsup'])){
     $alamat = $_POST['alamat'];
     $tel = $_POST['tel'];
 
-    $updsup = mysqli_query($conn, "UPDATE supplier set namasup = '$namasupplier' , alamat = '$alamat' , notelp = '$tel' WHERE idsup = '$idupdt'");
+    $updsup = mysqli_query($conn, "UPDATE supplier set nama_supplier = '$namasupplier' , alamat = '$alamat' , notelp = '$tel' WHERE idsup = '$idupdt'");
 
     if($updsup){
         header('location:supplier.php');

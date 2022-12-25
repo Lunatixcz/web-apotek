@@ -9,11 +9,11 @@ include 'head.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Stock Item</h1>
+                        <h1 class="mt-4">Stock Obat</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                <i class="fa fa-plus-square"></i> Tambah Item
+                                <i class="fa fa-plus-square"></i> Tambah Obat
                                 </button>
                             </div>
                             <div class="card-body">
@@ -21,8 +21,9 @@ include 'head.php';
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Nama Barang</th>
-                                                <th>Deskripsi</th>
+                                                <th>Nama Obat</th>
+                                                <th>Harga</th>
+                                                <th>Satuan</th>
                                                 <th>Stock</th>
                                                 <th>Action</th>
                                             </tr>
@@ -32,13 +33,15 @@ include 'head.php';
                                                 $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $idbarang = $data['idbarang'];
-                                                    $namabarang = $data['namabarang'];
-                                                    $deskripsi = $data['deskripsi'];
-                                                    $stock = $data['stock'];    
+                                                    $namabarang = $data['merek_dagang'];
+                                                    $harga = $data['harga'];
+                                                    $satuan = $data['satuan'];    
+                                                    $stock = $data['stock'];
                                             ?>
                                                 <tr>
                                                     <td><?=$namabarang?></td>
-                                                    <td><?=$deskripsi?></td>
+                                                    <td><?=$harga?></td>
+                                                    <td><?=$satuan?></td>
                                                     <td><?=$stock?></td>
                                                     <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang;?>">Edit</button>
                                                     
@@ -96,10 +99,10 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
-                <label>Nama Barang</label>
+                <label>Nama Obat</label>
                 <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
                 <br>
-                <label>Deskripsi</label>
+                <label>Harga</label>
                 <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
                 <br>
                 <label>Stock</label>
@@ -132,7 +135,7 @@ include 'head.php';
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Barang</h4>
+          <h4 class="modal-title">Tambah Obat</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -144,9 +147,10 @@ include 'head.php';
                 <label>Nama Barang</label>
                 <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
                 <br>
-                <label>Deskripsi</label>
-                <input type="text" name="deskripsi" value="<?=$deskripsi;?>" class="form-control" required>
+                <label>Harga</label>
+                <input type="text" name="deskripsi" value="<?=$harga;?>" class="form-control" required>
                 <br>
+                <label></label>
                 <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
             </form> 
         </div>
