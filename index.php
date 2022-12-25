@@ -3,6 +3,27 @@ require 'function.php';
 require 'cek.php';
 include 'head.php';
 ?>
+<style>
+  select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #292929;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+</style>
 
     <body class="sb-nav-fixed">
         <?php include 'nav.php'?>;
@@ -32,7 +53,7 @@ include 'head.php';
                                             <?php
                                                 $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                    $idbarang = $data['idbarang'];
+                                                    $idbarang = $data['idobat'];
                                                     $namabarang = $data['merek_dagang'];
                                                     $harga = $data['harga'];
                                                     $satuan = $data['satuan'];    
@@ -100,10 +121,20 @@ include 'head.php';
             <br>
             <form method="post">
                 <label>Nama Obat</label>
-                <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+                <input type="text" name="merek_dagang" placeholder="Nama Obat" class="form-control" required>
                 <br>
                 <label>Harga</label>
-                <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                <input type="text" name="harga" placeholder="Harga" class="form-control" required>
+                <br>
+                <label>Satuan</label><br>
+                <select class="form-select" id="metode" name="satuan" id = "select" required >
+                  <option value="item">Item</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="kapsul">Kapsul</option>
+                  <option value="tetesan">Tetesan</option>
+                  <option value="suppositori">Suppositori</option>
+                  <option value="hirup">Hirup</option>
+                </select>
                 <br>
                 <label>Stock</label>
                 <input type="number" name="stock" placeholder="Stock" class="form-control" required>
@@ -122,11 +153,13 @@ include 'head.php';
 
         <!-- Edit Modal -->
         <?php
-            $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
-            while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                $idbarang = $data['idbarang'];
-                $namabarang = $data['namabarang'];
-                $deskripsi = $data['deskripsi'];
+             $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
+             while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                 $idbarang = $data['idobat'];
+                 $namabarang = $data['merek_dagang'];
+                 $harga = $data['harga'];
+                 $satuan = $data['satuan'];    
+                 $stock = $data['stock'];
                  
         ?>
   <div class="modal fade" id="edit<?=$idbarang;?>">
@@ -135,7 +168,7 @@ include 'head.php';
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Obat</h4>
+          <h4 class="modal-title">Edit Obat</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -143,15 +176,26 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
-                <input type="hidden" name="idbaranghapus" value="<?=$idbarang?>;">
-                <label>Nama Barang</label>
-                <input type="text" name="namabarang" value="<?=$namabarang;?>" class="form-control" required>
+            <label>Nama Obat</label>
+                <input type="text" name="merek_dagang" placeholder="Nama Obat" class="form-control" value="<?=$namabarang?>">
                 <br>
                 <label>Harga</label>
-                <input type="text" name="deskripsi" value="<?=$harga;?>" class="form-control" required>
+                <input type="text" name="harga" placeholder="Harga" class="form-control" value="<?=$harga?>">
                 <br>
-                <label></label>
-                <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                <label>Satuan</label><br>
+                <select class="form-select" id="metode" name="satuan" id = "select">
+                  <option value="item">Item</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="kapsul">Kapsul</option>
+                  <option value="tetesan">Tetesan</option>
+                  <option value="suppositori">Suppositori</option>
+                  <option value="hirup">Hirup</option>
+                </select>
+                <br>
+                <label>Stock</label>
+                <input type="number" name="stock" placeholder="Stock" class="form-control" value="<?=$stock?>">
+                <br>
+                <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
             </form> 
         </div>
         

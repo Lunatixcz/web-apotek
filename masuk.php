@@ -24,22 +24,26 @@ include 'head.php';
                                                 <th>Nama Barang</th>
                                                 <th>Supplier</th>
                                                 <th>Quantity</th>
+                                                <th>Nominal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php
                                                 $ambilsemuadatastock = mysqli_query($conn,"SELECT * from masuk m,supplier p, stock s where s.idobat = m.idobat and p.idsup = m.supplier");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                    $idbarang = $data['idobat'];
                                                     $tanggal = $data['tanggal'];
-                                                    $namabarang = $data['namabarang'];
-                                                    $deskripsi = $data['namasup'];
-                                                    $quantity = $data['quantity'];    
+                                                    $namabarang = $data['merek_dagang'];
+                                                    $supplier = $data['supplier'];
+                                                    $kuantitas = $data['kuantitas'];
+                                                    $besarharga = $data['besarharga'];
                                             ?>
                                                 <tr>
                                                     <td><?=$tanggal?></td>
                                                     <td><?=$namabarang?></td>
-                                                    <td><?=$deskripsi?></td>
-                                                    <td><?=$quantity?></td>
+                                                    <td><?=$supplier?></td>
+                                                    <td><?=$kuantitas?></td>
+                                                    <td><?=$besarharga?></td>
                                                 </tr>
 
                                             <?php
@@ -95,8 +99,8 @@ include 'head.php';
                     <?php
                         $pilihanbarang = mysqli_query($conn,"select * from stock");
                         while($fetcharray = mysqli_fetch_array($pilihanbarang)){
-                            $namabarang = $fetcharray['namabarang'];
-                            $idbarang = $fetcharray['idbarang'];
+                            $namabarang = $fetcharray['merek_dagang'];
+                            $idbarang = $fetcharray['idobat'];
                         
                     ?>
                     <option value="<?=$idbarang;?>"><?=$namabarang;?></option>
@@ -111,7 +115,7 @@ include 'head.php';
                     <?php
                         $pilihansupplier = mysqli_query($conn,"select * from supplier");
                         while($fetcharray=mysqli_fetch_array($pilihansupplier)){
-                         $namasupplier=$fetcharray['namasup'];
+                         $namasupplier=$fetcharray['nama_supplier'];
                          $idsup=$fetcharray['idsup'];       
                     ?>
                     <option value="<?=$idsup;?>"><?=$namasupplier;?></option>        
@@ -119,6 +123,8 @@ include 'head.php';
                         }
                     ?>
                 </select>
+                <br>
+                <input type="text" name="harga" placeholder="Harga" class="form-control" required>
                 <br>
                 <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
             </form> 
