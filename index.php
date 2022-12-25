@@ -127,7 +127,7 @@ include 'head.php';
                 <input type="text" name="harga" placeholder="Harga" class="form-control" required>
                 <br>
                 <label>Satuan</label><br>
-                <select class="form-select" id="metode" name="satuan" id = "select" required >
+                <select class="form-select" id="metode" name="satuan" id = "select" class="form-control" required >
                   <option value="item">Item</option>
                   <option value="tablet">Tablet</option>
                   <option value="kapsul">Kapsul</option>
@@ -221,19 +221,19 @@ include 'head.php';
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form method="post">
-                <input type="hidden" name="idb" value="<?=$idbarang?>;">
-                Apakah Anda Ingin Menghapus Item <?=$namabarang;?> ?
-                <br>
-                <br>
-                <button type="submit" class="btn btn-primary" name="hapusbarang">Yes</button>
-            </form> 
+            Apakah Anda Ingin Menghapus Item <?=$namabarang;?> ?
+            <br>
+            <br>
+            
            
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
-            
+            <form method="post">
+                <input type="hidden" name="idb" value="<?=$idbarang?>;">
+                <button type="submit" class="btn btn-primary" name="hapusbarang">Yes</button>
+            </form> 
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </div>

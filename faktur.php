@@ -3,7 +3,11 @@ require 'function.php';
 require 'cek.php';
 include 'head.php';
 ?>
-
+<style>
+  #pesanan {
+    height: 250px;
+  }
+</style>
 <body class="sb-nav-fixed">
     <?php include 'nav.php'?>
     <div id="layoutSidenav_content">
@@ -20,12 +24,13 @@ include 'head.php';
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                            <tr>
-                                                <th>No Pembayaran</th>
+                                            <tr>                    
+                                                <th>Tanggal Pemesanan</th>
                                                 <th>Penjual</th>
                                                 <th>Barang Pesanan</th>
                                                 <th>Total Pembayaran</th>
                                                 <th>Jatuh Tempo</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -33,20 +38,19 @@ include 'head.php';
                                                 $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM faktur");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $id_faktur = $data['id_faktur'];
-                                                    $no_pembayaran = $data['no_pembayaran'];
+                                                    $tanggal_pemesanan = $data['tanggal'];
                                                     $penjual = $data['penjual'];
                                                     $barang_pesanan = $data['pesanan'];
                                                     $total_pembayaran = $data['total_pembayaran'];
                                                     $jatuh_tempo = $data['jatuh_tempo'];    
                                             ?>
                                                 <tr>
-                                                    <td><?=$no_pembayaran?></td>
+                                                    <td><?=$tanggal_pemesanan?></td>
                                                     <td><?=$penjual?></td>
                                                     <td><?=$barang_pesanan?></td>
                                                     <td><?=$total_pembayaran?></td>
                                                     <td><?=$jatuh_tempo?></td>
                                                     <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_faktur;?>">Edit</button>
-                                                    
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$id_faktur;?>">Delete</button>
                                                     </td>
                                                 </tr>
@@ -89,19 +93,22 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
+                <label>Tanggal Pemesanan</label>
+                <input type="date" name="tanggalpesan" placeholder="Tanggal Pemesanan" class="form-control" required>
+                <br>
                 <label>Penjual</label>
                 <input type="text" name="penjual" placeholder="Penjual" class="form-control" required>
                 <br>
-                <label>Barang Pesanan</label>
-                <input type="text" name="pesanan" placeholder="Barang Pesanan" class="form-control" required>
+                <label>Barang Pesanan</label><br>
+                <textarea name="pesanan" id="pesanan" class="form-control"></textarea>
                 <br>
                 <label>Total Pembayaran</label>
-                <input type="text" name="">
+                <input type="text" name="totalpesanan" placeholder="Total Pembayaran" class="form-control" required>
                 <br>
-                <label>Stock</label>
-                <input type="number" name="stock" placeholder="Stock" class="form-control" required>
+                <label>Jatuh Tempo</label>
+                <input type="date" name="jatuhtempo" placeholder="Jatuh Tempo" class="form-control" required>
                 <br>
-                <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+                <button type="submit" class="btn btn-primary" name="addnewfaktur">Submit</button>
             </form> 
         </div>
         
@@ -115,22 +122,23 @@ include 'head.php';
 
         <!-- Edit Modal -->
         <?php
-             $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
+             $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM faktur");
              while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                 $idbarang = $data['idobat'];
-                 $namabarang = $data['merek_dagang'];
-                 $harga = $data['harga'];
-                 $satuan = $data['satuan'];    
-                 $stock = $data['stock'];
+                 $id_faktur = $data['id_faktur'];
+                 $tanggal_pemesanan = $data['tanggal'];
+                 $penjual = $data['penjual'];
+                 $barang_pesanan = $data['pesanan'];
+                 $total_pembayaran = $data['total_pembayaran'];
+                 $jatuh_tempo = $data['jatuh_tempo'];    
                  
         ?>
-  <div class="modal fade" id="edit<?=$idbarang;?>">
+  <div class="modal fade" id="edit<?=$id_faktur;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Obat</h4>
+          <h4 class="modal-title">Edit Faktur</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -138,26 +146,23 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
-            <label>Nama Obat</label>
-                <input type="text" name="merek_dagang" placeholder="Nama Obat" class="form-control" value="<?=$namabarang?>">
+            <input type="hidden" name="id_faktur" value="<?=$id_faktur?>;">
+            <label>Tanggal Pemesanan</label>
+                <input type="date" name="tanggalpesan" placeholder="Tanggal Pemesanan" class="form-control" value="<?=$tanggal_pemesanan?>" required>
                 <br>
-                <label>Harga</label>
-                <input type="text" name="harga" placeholder="Harga" class="form-control" value="<?=$harga?>">
+                <label>Penjual</label>
+                <input type="text" name="penjual" placeholder="Penjual" class="form-control" value="<?=$penjual?>" required>
                 <br>
-                <label>Satuan</label><br>
-                <select class="form-select" id="metode" name="satuan" id = "select">
-                  <option value="item">Item</option>
-                  <option value="tablet">Tablet</option>
-                  <option value="kapsul">Kapsul</option>
-                  <option value="tetesan">Tetesan</option>
-                  <option value="suppositori">Suppositori</option>
-                  <option value="hirup">Hirup</option>
-                </select>
+                <label>Barang Pesanan</label><br>
+                <textarea name="pesanan" id="pesanan" class="form-control "value="<?=$barang_pesanan?>"></textarea>
                 <br>
-                <label>Stock</label>
-                <input type="number" name="stock" placeholder="Stock" class="form-control" value="<?=$stock?>">
+                <label>Total Pembayaran</label>
+                <input type="text" name="totalpesanan" placeholder="Total Pembayaran" class="form-control" value="<?=$total_pembayaran?>" required>
                 <br>
-                <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+                <label>Jatuh Tempo</label>
+                <input type="date" name="jatuhtempo" placeholder="Jatuh Tempo" class="form-control" value="<?=$jatuh_tempo?>" required>
+                <br>
+                <button type="submit" class="btn btn-primary" name="idupfaktur">Submit</button>
             </form> 
         </div>
         
@@ -170,7 +175,7 @@ include 'head.php';
   </div>
 
 <!-- Delete Modal -->
-  <div class="modal fade" id="delete<?=$idbarang;?>">
+  <div class="modal fade" id="delete<?=$id_faktur;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -183,19 +188,15 @@ include 'head.php';
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form method="post">
-                <input type="hidden" name="idb" value="<?=$idbarang?>;">
-                Apakah Anda Ingin Menghapus Item <?=$namabarang;?> ?
-                <br>
-                <br>
-                <button type="submit" class="btn btn-primary" name="hapusbarang">Yes</button>
-            </form> 
-           
+                Apakah Anda Ingin Menghapus Item?
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
-            
+          <form method="post">
+              <input type="hidden" name="id_faktur" value="<?=$id_faktur?>;">
+              <button type="submit" class="btn btn-primary" name="hapusfaktur">Yes</button>
+          </form> 
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       </div>

@@ -8,7 +8,7 @@ include 'head.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Stock Item</h1>
+                        <h1 class="mt-4">Supplier</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -176,13 +176,7 @@ include 'head.php';
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form method="post">
                 Apakah Anda Ingin Menghapus Supplier <?=$namasupplier;?> ?
-                <br>
-                <br>
-                
-            </form> 
-           
         </div>
         
         <!-- Modal footer -->

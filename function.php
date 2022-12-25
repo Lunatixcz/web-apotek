@@ -5,9 +5,7 @@ session_start();
 //Membuat koneksi ke database
 
 $conn = mysqli_connect("localhost","root","","apotek");
-if ($conn){
-    echo "berhasil";
-}
+
 
 //Menambah Barang
 if(isset($_POST['addnewbarang'])){
@@ -126,7 +124,7 @@ if(isset($_POST['updsup'])){
     $alamat = $_POST['alamat'];
     $tel = $_POST['tel'];
 
-    $updsup = mysqli_query($conn, "UPDATE supplier set nama_supplier = '$namasupplier' , alamat = '$alamat' , notelp = '$tel' WHERE idsup = '$idupdt'");
+    $updsup = mysqli_query($conn, "UPDATE supplier set nama_supplier = '$namasupplier' , alamat = '$alamat' , no_telp = '$tel' WHERE idsup = '$idupdt'");
 
     if($updsup){
         header('location:supplier.php');
@@ -147,6 +145,54 @@ if(isset($_POST['hapussupplier'])){
         header('location:supplier.php');
     }
 }
+
+if(isset($_POST['addnewfaktur'])){
+    $tanggal = $_POST['tanggalpesan'];
+    $penjual = $_POST['penjual'];
+    $pesanan = $_POST['pesanan'];
+    $totalpesanan = $_POST['totalpesanan'];
+    $jatuhtempo = $_POST['jatuhtempo'];
+
+    $addnewfaktur = mysqli_query($conn, "INSERT INTO faktur (tanggal, penjual, pesanan, total_pembayaran, jatuh_tempo) VALUES ('$tanggal', '$penjual', '$pesanan', '$totalpesanan', '$jatuhtempo')");
+
+    if($addnewfaktur){
+        header('location:faktur.php');
+    }
+    else{
+        header('location:faktur.php');
+    }
+}
+
+if(isset($_POST['idupfaktur'])){
+    $idupfaktur = $_POST['id_faktur'];
+    $tanggal = $_POST['tanggalpesan'];
+    $penjual = $_POST['penjual'];
+    $pesanan = $_POST['pesanan'];
+    $totalpesanan = $_POST['totalpesanan'];
+    $jatuhtempo = $_POST['jatuhtempo'];
+
+    $queryfaktur = mysqli_query($conn, "UPDATE faktur set tanggal = '$tanggal' , penjual = '$penjual' , pesanan = '$pesanan', total_pembayaran = '$totalpesanan', jatuh_tempo = '$jatuhtempo' WHERE id_faktur = '$idupfaktur'");
+
+    if($queryfaktur){
+        header('location:faktur.php');
+    }
+    else{
+        header('location:faktur.php');
+    }
+}
+
+if(isset($_POST['hapusfaktur'])){
+    $idhapusfaktur = $_POST['id_faktur'];
+    $queryhapusfaktur = mysqli_query($conn, "DELETE from faktur WHERE id_faktur = '$idhapusfaktur'");
+
+    if($queryhapusfaktur){
+        header('location:faktur.php');
+    }
+    else{
+        header('location:faktur.php');
+    }
+}
+    
 
 
 ?>
