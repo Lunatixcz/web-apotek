@@ -34,7 +34,7 @@ include 'head.php';
                                                     $idbarang = $data['idobat'];
                                                     $tanggal = $data['tanggal'];
                                                     $namabarang = $data['merek_dagang'];
-                                                    $supplier = $data['supplier'];
+                                                    $supplier = $data['nama_supplier'];
                                                     $kuantitas = $data['kuantitas'];
                                                     $besarharga = $data['besarharga'];
                                             ?>

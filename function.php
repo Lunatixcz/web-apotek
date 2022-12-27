@@ -13,8 +13,10 @@ if(isset($_POST['addnewbarang'])){
     $harga = $_POST['harga'];
     $satuan = $_POST['satuan'];
     $stock = $_POST['stock'];
+    $exp_date = $_POST['exp_date'];
+    $supplier = $_POST['supplier'];
 
-    $addtotable = mysqli_query($conn, "INSERT INTO stock (merek_dagang,harga,satuan,stock) VALUES ('$merek_dagang','$harga','$satuan','$stock')");
+    $addtotable = mysqli_query($conn, "INSERT INTO stock (merek_dagang,harga,satuan,stock, exp_date, supplier) VALUES ('$merek_dagang','$harga','$satuan','$stock', '$exp_date', '$supplier')");
     
     if($addtotable){
         header('location:index.php');

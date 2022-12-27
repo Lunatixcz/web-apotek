@@ -44,26 +44,34 @@ include 'head.php';
                                             <tr>
                                                 <th>Nama Obat</th>
                                                 <th>Harga</th>
-                                                <th>Satuan</th>
+                                                <th>Unit</th>
                                                 <th>Stock</th>
+                                                <th>Exp Date</th>
+                                                <th>Supplier</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $ambilsemuadatastock = mysqli_query($conn,"SELECT * FROM stock");
+                                                $ambilsemuadatastock = mysqli_query($conn,"SELECT * from stock");
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
+                                                    $ambildatasupplier = mysqli_query($conn, "SELECT * FROM supplier p, stock s where s.supplier = p.idsup");
+                                                    $data1 = mysqli_fetch_array($ambildatasupplier);
                                                     $idbarang = $data['idobat'];
                                                     $namabarang = $data['merek_dagang'];
                                                     $harga = $data['harga'];
                                                     $satuan = $data['satuan'];    
                                                     $stock = $data['stock'];
+                                                    $exp_date = $data['exp_date'];
+                                                    $supplier = $data1['nama_supplier'];
                                             ?>
                                                 <tr>
                                                     <td><?=$namabarang?></td>
                                                     <td><?=$harga?></td>
                                                     <td><?=$satuan?></td>
                                                     <td><?=$stock?></td>
+                                                    <td><?=$exp_date?></td>
+                                                    <td><?=$supplier?></td>
                                                     <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang;?>">Edit</button>
                                                     
                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idbarang;?>">Delete</button>
@@ -139,6 +147,22 @@ include 'head.php';
                 <label>Stock</label>
                 <input type="number" name="stock" placeholder="Stock" class="form-control" required>
                 <br>
+                <label>Exp Date</label>
+                <input type="date" name="exp_date" placeholder="Exp Date" class="form-control" required>
+                <br>
+                <label>Supplier</label>
+                <select name="supplier" class="form-control">
+                    <?php
+                        $pilihansupplier = mysqli_query($conn,"select * from supplier");
+                        while($fetcharray=mysqli_fetch_array($pilihansupplier)){
+                         $namasupplier=$fetcharray['nama_supplier'];
+                         $idsup=$fetcharray['idsup'];       
+                    ?>
+                    <option value="<?=$idsup;?>"><?=$namasupplier;?></option>        
+                    <?php
+                        }
+                    ?>
+                </select>
                 <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
             </form> 
         </div>
@@ -160,6 +184,7 @@ include 'head.php';
                  $harga = $data['harga'];
                  $satuan = $data['satuan'];    
                  $stock = $data['stock'];
+                 $exp_date = $data['exp_date'];
                  
         ?>
   <div class="modal fade" id="edit<?=$idbarang;?>">
@@ -195,6 +220,22 @@ include 'head.php';
                 <label>Stock</label>
                 <input type="number" name="stock" placeholder="Stock" class="form-control" value="<?=$stock?>">
                 <br>
+                <label>Exp Date</label>
+                <input type="date" name="exp_date" placeholder="Exp Date" class="form-control" value="<?=$exp_date?>">
+                <br>
+                <label>Supplier</label>
+                <select name="supplier" class="form-control">
+                    <?php
+                        $pilihansupplier = mysqli_query($conn,"select * from supplier");
+                        while($fetcharray=mysqli_fetch_array($pilihansupplier)){
+                         $namasupplier=$fetcharray['nama_supplier'];
+                         $idsup=$fetcharray['idsup'];       
+                    ?>
+                    <option value="<?=$idsup;?>"><?=$namasupplier;?></option>        
+                    <?php
+                        }
+                    ?>
+                </select>
                 <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
             </form> 
         </div>
