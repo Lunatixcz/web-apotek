@@ -61,10 +61,10 @@ include 'head.php';
                         <?= $dokter ?>
                       </td>
                       <td>
-                        <a href="./detilkeluar.php?id=<?= $idtransaksi; ?>"><button type="button"
+                        <a href="./detilkeluar.php?id=<?= $idtransaksi ?>"><button type="button"
                             class="btn btn-warning">Add Details</button></a>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                          data-target="#delete<?= $idtransaksi; ?>">Delete</button>
+                          data-target="#delete<?= $idtransaksi ?>">Delete</button>
                       </td>
                     </tr>
                     <?php

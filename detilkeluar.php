@@ -67,19 +67,23 @@ if (!isset($_GET['id'])) {
                     $total = $data['total'];
                     ?>
                     <tr>
-                      <td><?= $md ?></td>
+                      <td>
+                        <?= $md ?>
+                      </td>
                       <td>
                         <?= $jlh ?>
                       </td>
-                      <td><?= $harga ?></td>
+                      <td>
+                        <?= $harga ?>
+                      </td>
                       <td>
                         <?= $total ?>
                       </td>
                       <td>
                         <button type="button" class="btn btn-warning" data-toggle="modal"
-                          data-target="#edit<?= $idobat; ?>">Edit</button>
+                          data-target="#edit<?= $idobat ?>">Edit</button>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                          data-target="#delete<?= $idobat; ?>">Delete</button>
+                          data-target="#delete<?= $idobat ?>">Delete</button>
                       </td>
                     </tr>
 
@@ -136,7 +140,7 @@ if (!isset($_GET['id'])) {
         <form method="post">
           <select name="idobatbaru" class="form-control">
             <?php
-            $pilihanbarang = mysqli_query($conn, "select * from stock");
+            $pilihanbarang = mysqli_query($conn, "SELECT stock.idobat, stock.merek_dagang FROM stock WHERE stock.idobat NOT IN (SELECT keluar.id_obat FROM keluar WHERE keluar.id_transaksi = '$idtd');");
             while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
               $namabarang = $fetcharray['merek_dagang'];
               $idbarang = $fetcharray['idobat'];
@@ -149,7 +153,7 @@ if (!isset($_GET['id'])) {
             }
             ?>
           </select>
-          <input type="hidden" name="id_tr" value="<?= $idtd ?>;">
+          <input type="hidden" name="id_tr" value="<?= $idtd ?>">
           <br>
           <input type="number" name="qtybaru" placeholder="Quantity" class="form-control" required>
           <br>
@@ -168,17 +172,23 @@ if (!isset($_GET['id'])) {
 
 <!-- Edit Modal -->
 <?php
-$ambildatakeluar = mysqli_query($conn, "SELECT * FROM keluar WHERE id_transaksi = '$idtd'");
+$ambildatakeluar = mysqli_query($conn, "SELECT stock.idobat, stock.merek_dagang, stock.stock, keluar.jumlah FROM stock JOIN keluar ON keluar.id_obat = stock.idobat WHERE keluar.id_transaksi = '$idtd';");
 while ($data = mysqli_fetch_array($ambildatakeluar)) {
-
+  $t_id_obat = $data['idobat'];
+  $t_merek = $data['merek_dagang'];
+  $t_stock = $data['stock'];
+  $o_stock = $data['jumlah'];
+  $m_stock = $t_stock + $o_stock;
   ?>
-  <div class="modal fade" id="edit<?= $idbarang; ?>">
+  <div class="modal fade" id="edit<?= $t_id_obat ?>">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Obat</h4>
+          <h4 class="modal-title">
+            <?= $t_merek ?>
+          </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
@@ -186,45 +196,16 @@ while ($data = mysqli_fetch_array($ambildatakeluar)) {
         <div class="modal-body">
           <br>
           <form method="post">
-            <label>Nama Obat</label>
-            <input type="text" name="merek_dagang" placeholder="Nama Obat" class="form-control"
-              value="<?= $namabarang ?>">
+            <input type="hidden" name="id_obat_detil" value="<?= $t_id_obat ?>" />
+            <input type="hidden" name="id_sori_detil" value="<?= $m_stock ?>" />
+            <input type="hidden" name="id_sb_detil" value="<?= $t_stock ?>" />
+            <input type="hidden" name="id_trans_detil" value="<?= $idtd ?>" />
+            <label>
+              <?= $t_stock ?> obat tersisa
+            </label>
+            <input type="number" name="stock_detil" class="form-control" value="<?= $o_stock ?>">
             <br>
-            <label>Harga</label>
-            <input type="text" name="harga" placeholder="Harga" class="form-control" value="<?= $harga ?>">
-            <br>
-            <label>Satuan</label><br>
-            <select class="form-select" id="metode" name="satuan" id="select">
-              <option value="item">Item</option>
-              <option value="tablet">Tablet</option>
-              <option value="kapsul">Kapsul</option>
-              <option value="tetesan">Tetesan</option>
-              <option value="suppositori">Suppositori</option>
-              <option value="hirup">Hirup</option>
-            </select>
-            <br>
-            <label>Stock</label>
-            <input type="number" name="stock" placeholder="Stock" class="form-control" value="<?= $stock ?>">
-            <br>
-            <label>Exp Date</label>
-            <input type="date" name="exp_date" placeholder="Exp Date" class="form-control" value="<?= $exp_date ?>">
-            <br>
-            <label>Supplier</label>
-            <select name="supplier" class="form-control">
-              <?php
-              $pilihansupplier = mysqli_query($conn, "select * from supplier");
-              while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                $namasupplier = $fetcharray['nama_supplier'];
-                $idsup = $fetcharray['idsup'];
-                ?>
-                <option value="<?= $idsup; ?>">
-                  <?= $namasupplier; ?>
-                </option>
-                <?php
-              }
-              ?>
-            </select>
-            <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+            <button type="submit" class="btn btn-primary" name="aturdetilobat">Submit</button>
           </form>
         </div>
 
@@ -237,20 +218,20 @@ while ($data = mysqli_fetch_array($ambildatakeluar)) {
   </div>
 
   <!-- Delete Modal -->
-  <div class="modal fade" id="delete<?= $idbarang; ?>">
+  <div class="modal fade" id="delete<?= $t_id_obat; ?>">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Delete Item</h4>
+          <h4 class="modal-title">Delete <?= $t_merek ?></h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
           <br>
-          Apakah Anda Ingin Menghapus Item <?= $namabarang; ?> ?
+          Apakah Anda Ingin Menghapus Item <?= $t_merek; ?> ?
           <br>
           <br>
 
@@ -260,8 +241,9 @@ while ($data = mysqli_fetch_array($ambildatakeluar)) {
         <!-- Modal footer -->
         <div class="modal-footer">
           <form method="post">
-            <input type="hidden" name="idb" value="<?= $idbarang ?>;">
-            <button type="submit" class="btn btn-primary" name="hapusbarang">Yes</button>
+            <input type="hidden" name="id_t_del" value="<?= $idtd ?>">
+            <input type="hidden" name="id_o_del" value="<?= $t_id_obat ?>">
+            <button type="submit" class="btn btn-primary" name="hapustobat">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>

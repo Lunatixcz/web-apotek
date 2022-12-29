@@ -207,6 +207,16 @@ if (isset($_POST['hapustransaksi'])) {
 	header('location: keluar.php');
 }
 
+function updatetransaksi($connection, $id_t)
+{
+	$itemsintransaction = mysqli_fetch_array(mysqli_query($connection, "SELECT COUNT(*) as amount FROM keluar;"));
+	if ($itemsintransaction['amount'] <= 0) {
+		mysqli_query($connection, "UPDATE transaksi SET jumlah = '0', nominal = '0' WHERE id_transaksi = '$id_t';");
+	} else {
+		mysqli_query($connection, "UPDATE transaksi SET jumlah = (SELECT SUM(jumlah) FROM keluar WHERE id_transaksi = '$id_t'), nominal = (SELECT SUM(nominal) FROM keluar WHERE id_transaksi = '$id_t') WHERE id_transaksi = '$id_t';");
+	}
+}
+
 if (isset($_POST['transaksitambah'])) {
 	$t_obat = $_POST['idobatbaru'];
 	$t_qty = $_POST['qtybaru'];
@@ -214,8 +224,10 @@ if (isset($_POST['transaksitambah'])) {
 
 	$querycekstok = mysqli_query($conn, "SELECT `stock`, `harga` FROM stock WHERE idobat = '$t_obat'");
 	$stoktersisa = mysqli_fetch_array($querycekstok);
+
 	if ($stoktersisa['stock'] < $t_qty) {
 		header("location: detilkeluar.php?id=$t_id&msg=Stok obat yang ingin ditambahkan tidak mencukupi!");
+		die('');
 	}
 
 	$newqty = $stoktersisa['stock'] - $t_qty;
@@ -223,8 +235,49 @@ if (isset($_POST['transaksitambah'])) {
 
 	$hargaobat = $stoktersisa['harga'] * $t_qty;
 	$queryaddbarangtransaksi = mysqli_query($conn, "INSERT INTO keluar VALUES('$t_id', '$t_obat', '$t_qty','$hargaobat');");
+	updatetransaksi($conn, $t_id);
 
 	header("location: detilkeluar.php?id=$t_id");
+}
+
+if (isset($_POST['aturdetilobat'])) {
+	$editdetilobat = $_POST['id_obat_detil'];
+	$editdetilstock = $_POST['stock_detil'];
+	$oristock = $_POST['id_sori_detil'];
+	$bestock = $_POST['id_sb_detil'];
+	$editdetilid = $_POST['id_trans_detil'];
+
+	if ($oristock < $editdetilstock) {
+		header("location: detilkeluar.php?id=$editdetilid&msg=Stok obat yang ingin ditambahkan tidak mencukupi!");
+		die('');
+	}
+
+	$newstock = $oristock - $editdetilstock;
+	$querymengubahstok = mysqli_query($conn, "UPDATE stock SET `stock` = '$newstock' WHERE idobat = '$editdetilobat';");
+
+	$querymengambilobat = mysqli_fetch_array(mysqli_query($conn, "SELECT harga FROM stock WHERE idobat = '$editdetilobat'"));
+	$hargabaru = $editdetilstock * $querymengambilobat['harga'];
+
+	$querymengubahnominal = mysqli_query($conn, "UPDATE keluar SET `jumlah` = '$editdetilstock', `nominal` = '$hargabaru' WHERE id_obat = '$editdetilobat' AND id_transaksi = '$editdetilid';");
+	updatetransaksi($conn, $editdetilid);
+
+	header("location: detilkeluar.php?id=$editdetilid");
+}
+
+if (isset($_POST['hapustobat'])) {
+	$idtransaksidel = $_POST['id_t_del'];
+	$idobatdel = $_POST['id_o_del'];
+
+	$jlhrelease = mysqli_fetch_array(mysqli_query($conn, "SELECT jumlah FROM keluar WHERE id_transaksi = '$idtransaksidel' AND id_obat='$idobatdel'"));
+
+	$initialstock = mysqli_fetch_array(mysqli_query($conn, "SELECT `stock` FROM stock WHERE idobat = '$idobatdel'"));
+	$newreleasestock = $jlhrelease['jumlah'] + $initialstock['stock'];
+	$releasestock = mysqli_query($conn, "UPDATE stock SET stock='$newreleasestock' WHERE idobat = '$idobatdel'");
+
+	$deleteitemintrans = mysqli_query($conn, "DELETE FROM keluar WHERE id_obat='$idobatdel' AND id_transaksi = '$idtransaksidel';");
+
+	updatetransaksi($conn, $idtransaksidel);
+	header("location: detilkeluar.php?id=$idtransaksidel");
 }
 
 
