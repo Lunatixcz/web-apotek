@@ -72,9 +72,9 @@ include 'head.php';
                                                     <td><?=$stock?></td>
                                                     <td><?=$exp_date?></td>
                                                     <td><?=$supplier?></td>
-                                                    <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang;?>">Edit</button>
-                                                    
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idbarang;?>">Delete</button>
+                                                    <td>
+                                                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang;?>">Edit</button>
+                                                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idbarang;?>">Delete</button>
                                                     </td>
                                                 </tr>
                                                 
@@ -92,7 +92,7 @@ include 'head.php';
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; SOPHIA 2022</div>
+                            <div class="text-muted">Copyright &copy; STEPHEN FAMILIA 2022</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
