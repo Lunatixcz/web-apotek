@@ -167,8 +167,6 @@ while ($data = mysqli_fetch_array($ambilsemuadatatransaksi)) {
           Apakah Anda Ingin Menghapus Transaksi #<?= $idtransaksi; ?> ?
           <br>
           <br>
-
-
         </div>
 
         <!-- Modal footer -->
@@ -182,7 +180,7 @@ while ($data = mysqli_fetch_array($ambilsemuadatatransaksi)) {
       </div>
     </div>
   </div>
-<?php
+  <?php
 }
 ?>
 

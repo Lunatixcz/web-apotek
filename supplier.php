@@ -121,7 +121,7 @@ include 'head.php';
                 $idsup = $data['idsup'];
                 $namasupplier = $data['nama_supplier'];
                 $alamat = $data['alamat'];
-                $notelp = $data['notelp'];
+                $notelp = $data['no_telp'];
                  
         ?>
   <div class="modal fade" id="edit<?=$idsup;?>">
@@ -138,15 +138,15 @@ include 'head.php';
         <div class="modal-body">
             <br>
             <form method="post">
-                <input type="hidden" name="idupdtsup" value="<?=$idsup?>;">
+                <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="namasupplier" value="<?=$namasupplier;?>" class="form-control" required>
+                <input type="text" name="namasupplier" value="<?=$namasupplier?>" class="form-control" required>
                 <br>
                 <label>Alamat</label>
-                <input type="text" name="alamat" value="<?=$alamat;?>" class="form-control" required>
+                <input type="text" name="alamat" value="<?=$alamat?>" class="form-control" required>
                 <br>
                 <label>No Tel</label>
-                <input type="text" name="tel" value="<?=$notelp;?>" class="form-control" required>
+                <input type="text" name="tel" value="<?=$notelp?>" class="form-control" required>
                 <br>
                 <button type="submit" class="btn btn-primary" name="updsup">Submit</button>
             </form> 

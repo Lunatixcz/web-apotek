@@ -40,7 +40,7 @@ if (isset($_POST['barangmasuk'])) {
 	$stocksekarang = $ambildatanya['stock'];
 	$tambahkanqty = $stocksekarang + $qty;
 
-	$addtomasuk = mysqli_query($conn, "INSERT INTO masuk (idobat,supplier,kuantitas, besarharga) values ('$barangnya','$supplier','$qty','$harga')");
+	$addtomasuk = mysqli_query($conn, "INSERT INTO masuk (idobat,id_supplier,kuantitas, besarharga) values ('$barangnya','$supplier','$qty','$harga')");
 	$updatestockmasuk = mysqli_query($conn, "UPDATE stock set stock ='$tambahkanqty' where idobat = '$barangnya'");
 
 	if ($addtomasuk && $updatestockmasuk) {
@@ -120,7 +120,7 @@ if (isset($_POST['updsup'])) {
 	$alamat = $_POST['alamat'];
 	$tel = $_POST['tel'];
 
-	$updsup = mysqli_query($conn, "UPDATE supplier set nama_supplier = '$namasupplier' , alamat = '$alamat' , no_telp = '$tel' WHERE idsup = '$idupdt'");
+	$updsup = mysqli_query($conn, "UPDATE supplier set nama_supplier = '$namasupplier' , alamat = '$alamat' , no_telp = '$tel' WHERE idsup = '$idupdt';");
 
 	if ($updsup) {
 		header('location:supplier.php');
@@ -203,6 +203,14 @@ if (isset($_POST['buattransaksi'])) {
 if (isset($_POST['hapustransaksi'])) {
 	$idthapus = $_POST['idth'];
 
+	$queryreleaseobat = mysqli_query($conn, "SELECT k.id_obat, k.jumlah FROM keluar k LEFT JOIN transaksi t ON k.id_transaksi = t.id_transaksi WHERE k.id_transaksi = '$idthapus';");
+	while ($obatreleased = mysqli_fetch_array($queryreleaseobat)) {
+		$amountreleased = $obatreleased['jumlah'];
+		$idtorelease = $obatreleased['id_obat'];
+		mysqli_query($conn, "UPDATE stock SET `stock` = `stock` + '$amountreleased' WHERE idobat = '$idtorelease';");
+	}
+
+	$queryhapuskeluar = mysqli_query($conn, "DELETE FROM keluar WHERE id_transaksi = '$idthapus';");
 	$queryhapustransaksi = mysqli_query($conn, "DELETE FROM transaksi WHERE id_transaksi = '$idthapus';");
 	header('location: keluar.php');
 }

@@ -31,7 +31,7 @@ include 'head.php';
 
                 <tbody>
                   <?php
-                  $ambilsemuadatastock = mysqli_query($conn, "SELECT * from masuk m,supplier p, stock s where s.idobat = m.idobat and p.idsup = m.supplier");
+                  $ambilsemuadatastock = mysqli_query($conn, "SELECT * from masuk m,supplier p, stock s where s.idobat = m.idobat and p.idsup = m.id_supplier");
                   while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                     $idbarang = $data['idobat'];
                     $tanggal = $data['tanggal'];
