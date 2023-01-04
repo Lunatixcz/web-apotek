@@ -148,7 +148,7 @@ if (isset($_POST['addnewfaktur'])) {
 	$totalpesanan = $_POST['totalpesanan'];
 	$jatuhtempo = $_POST['jatuhtempo'];
 
-	$addnewfaktur = mysqli_query($conn, "INSERT INTO faktur (tanggal, penjual, pesanan, total_pembayaran, jatuh_tempo) VALUES ('$tanggal', '$penjual', '$pesanan', '$totalpesanan', '$jatuhtempo')");
+	$addnewfaktur = mysqli_query($conn, "INSERT INTO faktur (tanggal, idsup, pesanan, total_pembayaran, jatuh_tempo) VALUES ('$tanggal', '$penjual', '$pesanan', '$totalpesanan', '$jatuhtempo')");
 
 	if ($addnewfaktur) {
 		header('location:faktur.php');

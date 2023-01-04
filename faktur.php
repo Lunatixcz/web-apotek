@@ -26,7 +26,7 @@ include 'head.php';
                                         <thead>
                                             <tr>                    
                                                 <th>Tanggal Pemesanan</th>
-                                                <th>Penjual</th>
+                                                <th>Supplier</th>
                                                 <th>Barang Pesanan</th>
                                                 <th>Total Pembayaran</th>
                                                 <th>Jatuh Tempo</th>
@@ -39,10 +39,14 @@ include 'head.php';
                                                 while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                     $id_faktur = $data['id_faktur'];
                                                     $tanggal_pemesanan = $data['tanggal'];
-                                                    $penjual = $data['penjual'];
                                                     $barang_pesanan = $data['pesanan'];
                                                     $total_pembayaran = $data['total_pembayaran'];
-                                                    $jatuh_tempo = $data['jatuh_tempo'];    
+                                                    $jatuh_tempo = $data['jatuh_tempo'];
+                                                    
+                                                    $penjual_id = $data['idsup'];
+                                                    $supplier = mysqli_fetch_array(mysqli_query($conn, "SELECT nama_supplier FROM supplier WHERE idsup = '$penjual_id';"));
+                                                    $penjual = $supplier['nama_supplier'];
+                                                    
                                             ?>
                                                 <tr>
                                                     <td><?=$tanggal_pemesanan?></td>
@@ -97,7 +101,20 @@ include 'head.php';
                 <input type="date" name="tanggalpesan" placeholder="Tanggal Pemesanan" class="form-control" required>
                 <br>
                 <label>Penjual</label>
-                <input type="text" name="penjual" placeholder="Penjual" class="form-control" required>
+                <select name="penjual" class="form-control" required>
+                  <?php
+                  $pilihansupplier = mysqli_query($conn, "select * from supplier");
+                  while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
+                    $namasupplier = $fetcharray['nama_supplier'];
+                    $idsup = $fetcharray['idsup'];
+                    ?>
+                    <option value="<?= $idsup ?>">
+                      <?= $namasupplier; ?>
+                    </option>
+                    <?php
+                  }
+                  ?>
+                </select>
                 <br>
                 <label>Barang Pesanan</label><br>
                 <textarea name="pesanan" id="pesanan" class="form-control"></textarea>
