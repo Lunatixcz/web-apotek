@@ -17,6 +17,7 @@ if (isset($_POST['addnewbarang'])) {
 	$supplier = $_POST['supplier'];
 
 	$addtotable = mysqli_query($conn, "INSERT INTO stock (merek_dagang,harga,satuan,stock, exp_date, supplier) VALUES ('$merek_dagang','$harga','$satuan','$stock', '$exp_date', '$supplier')");
+	//$copytomasuk = mysqli_query($conn, "INSERT INTO masuk (idobat,id_supplier,kuantitas, besarharga) values (LAST_INSERT_ID(),'$supplier','$stock','$harga')");
 
 	if ($addtotable) {
 		header('location:index.php');

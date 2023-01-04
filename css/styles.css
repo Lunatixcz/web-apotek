@@ -6481,16 +6481,16 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background: #283c86; /* fallback for old browsers */
+  background: #eaf041; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to top,
-    #45a247,
-    #283c86
+    #6de838,
+    #eaf041
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to top,
-    #45a247,
-    #283c86
+    #6de838,
+    #eaf041
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -10683,4 +10683,8 @@ body {
 }
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
+}
+
+#login-card {
+  background-color: white;
 }
