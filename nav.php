@@ -58,10 +58,10 @@
             Faktur
           </a>
 
-          <a class="nav-link" href="analisis.php">
+          <!-- <a class="nav-link" href="analisis.php">
             <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
             Analisis
-          </a>
+          </a> -->
 
           <a class="nav-link" href="logout.php">
             <div class="sb-nav-link-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
