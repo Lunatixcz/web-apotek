@@ -6,15 +6,22 @@ if (isset($_POST['login'])) {
   $password = $_POST['password'];
 
   //cek database
-  $cekdatabase = mysqli_query($conn, "Select * from login where email='$nama' and password='$password'");
+  $cekdatabase = mysqli_query($conn, "SELECT * FROM login where email='$nama' and password='$password'");
   //hitung jumlah data
   $hitung = mysqli_num_rows($cekdatabase);
   if ($hitung > 0) {
     session_start();
     while ($data = mysqli_fetch_array($cekdatabase)) {
       $_SESSION['name'] = $data['email'];
+      $akses = $data['akses_id'];
+      if ($akses == 2 || $akses == 3) {
+        $_SESSION['update_privilege'] = true;
+      }
+      $cekakses = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM akses WHERE akses_id = $akses"));
     }
     $_SESSION['log'] = 'True';
+    $_SESSION['akses'] = $cekakses['jenis'];
+
     header('location:index.php');
   } else {
     header('location:login.php');
@@ -47,6 +54,7 @@ if (!isset($_SESSION['log'])) {
   <title>STEPHEN FAMILIA</title>
   <link href="assets/img/favicon.png" rel="icon" />
   <link href="css/styles.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/5475682f31.js" crossorigin="anonymous"></script>
 </head>
 
@@ -64,9 +72,9 @@ if (!isset($_SESSION['log'])) {
                 <div class="card-body">
                   <form method="post">
                     <div class="form-group">
-                      <label class="small mb-1" for="inputEmailAddress">Nama</label>
-                      <input class="form-control py-4" name="nama" id="inputEmailAddress" type="email"
-                        placeholder="Enter email address" />
+                      <label class="small mb-1" for="inputEmailAddress">Username</label>
+                      <input class="form-control py-4" name="nama" id="inputEmailAddress" type="text"
+                        placeholder="Enter username" />
                     </div>
                     <div class="form-group">
                       <label class="small mb-1" for="inputPassword">Password</label>

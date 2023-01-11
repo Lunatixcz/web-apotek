@@ -32,7 +32,7 @@ include 'head.php';
                 </thead>
                 <tbody>
                   <?php
-                  $ambilsemuadatatransaksi = mysqli_query($conn, "SELECT * from transaksi");
+                  $ambilsemuadatatransaksi = mysqli_query($conn, "SELECT * FROM `transaksi` LEFT JOIN transaksi_berpreskripsi ON transaksi.id_transaksi = transaksi_berpreskripsi.id_transaksi;");
                   while ($data = mysqli_fetch_array($ambilsemuadatatransaksi)) {
                     $idtransaksi = $data['id_transaksi'];
                     $tanggal = $data['tanggal_transaksi'];

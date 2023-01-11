@@ -182,7 +182,7 @@ include 'head.php';
         <!-- Modal footer -->
         <div class="modal-footer">
           <form method="post">
-            <input type="hidden" name="idupdtsup" value="<?=$idsup?>;">
+            <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
             <button type="submit" class="btn btn-primary" name="hapussupplier">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

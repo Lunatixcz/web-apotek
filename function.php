@@ -28,6 +28,26 @@ if (isset($_POST['addnewbarang'])) {
 
 }
 
+if (isset($_POST['updatebarang'])) {
+	$merek_dagang = $_POST['u_merek_dagang'];
+	$harga = $_POST['u_harga'];
+	$satuan = $_POST['u_satuan'];
+	$stock = $_POST['u_stock'];
+	$exp_date = $_POST['u_exp_date'];
+	$supplier = $_POST['u_supplier'];
+	$idup = $_POST['id_update'];
+
+	$addtotable = mysqli_query($conn, "UPDATE stock SET merek_dagang='$merek_dagang', harga='$harga', satuan='$satuan', stock='$stock', exp_date='$exp_date', supplier='$supplier' WHERE idobat = '$idup'");
+	//$copytomasuk = mysqli_query($conn, "INSERT INTO masuk (idobat,id_supplier,kuantitas, besarharga) values (LAST_INSERT_ID(),'$supplier','$stock','$harga')");
+
+	if ($addtotable) {
+		header('location:index.php');
+	} else {
+		echo 'GAGAL';
+		header('location:index.php');
+	}
+}
+
 //Menambah Barang Masuk
 if (isset($_POST['barangmasuk'])) {
 	$barangnya = $_POST['barangnya'];
@@ -73,19 +93,19 @@ if (isset($_POST['barangkeluar'])) {
 	}
 }
 
-if (isset($_POST['updatebarang'])) {
-	$idupdt = $_POST['idbaranghapus'];
-	$merek_dagang = $_POST['merek_dagang'];
-	$harga = $_POST['harga'];
+// if (isset($_POST['updatebarang'])) {
+// 	$idupdt = $_POST['idbaranghapus'];
+// 	$merek_dagang = $_POST['merek_dagang'];
+// 	$harga = $_POST['harga'];
 
-	$updatebarang = mysqli_query($conn, "UPDATE stock set merek_dagang = '$merek_dagang',harga='$harga' where idbarang = '$idupdt'");
+// 	$updatebarang = mysqli_query($conn, "UPDATE stock set merek_dagang = '$merek_dagang',harga='$harga' where idbarang = '$idupdt'");
 
-	if ($updatebarang) {
-		header('location:index.php');
-	} else {
-		header('location:index.php');
-	}
-}
+// 	if ($updatebarang) {
+// 		header('location:index.php');
+// 	} else {
+// 		header('location:index.php');
+// 	}
+// }
 
 if (isset($_POST['hapusbarang'])) {
 
@@ -165,7 +185,7 @@ if (isset($_POST['idupfaktur'])) {
 	$totalpesanan = $_POST['totalpesanan'];
 	$jatuhtempo = $_POST['jatuhtempo'];
 
-	$queryfaktur = mysqli_query($conn, "UPDATE faktur set tanggal = '$tanggal' , penjual = '$penjual' , pesanan = '$pesanan', total_pembayaran = '$totalpesanan', jatuh_tempo = '$jatuhtempo' WHERE id_faktur = '$idupfaktur'");
+	$queryfaktur = mysqli_query($conn, "UPDATE faktur set tanggal = '$tanggal' , idsup = '$penjual' , pesanan = '$pesanan', total_pembayaran = '$totalpesanan', jatuh_tempo = '$jatuhtempo' WHERE id_faktur = '$idupfaktur'");
 
 	if ($queryfaktur) {
 		header('location:faktur.php');
@@ -189,15 +209,21 @@ if (isset($_POST['buattransaksi'])) {
 	$idtbaru = $_POST['id_t'];
 	$dokter = null;
 	$pasien = null;
+	$flag_pres = false;
 
 	if (isset($_POST['dokter'])) {
 		$dokter = $_POST['dokter'];
+		$flag_pres = true;
 	}
 	if (isset($_POST['pasien'])) {
 		$pasien = $_POST['pasien'];
+		$flag_pres = true;
 	}
 
-	$querybuattransaksi = mysqli_query($conn, "INSERT INTO transaksi(id_transaksi, jumlah, nominal, nama_pelanggan, nama_dokter) VALUES('$idtbaru', '0', '0', '$pasien', '$dokter');");
+	$querybuattransaksi = mysqli_query($conn, "INSERT INTO transaksi(id_transaksi, jumlah, nominal) VALUES('$idtbaru', '0', '0');");
+	if ($flag_pres) {
+		$querybuatpreskripsi = mysqli_query($conn, "INSERT INTO transaksi_berpreskripsi(id_transaksi, nama_pelanggan, nama_dokter) VALUES('$idtbaru','$pasien', '$dokter');");
+	}
 	header('location: keluar.php');
 }
 

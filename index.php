@@ -55,8 +55,10 @@ select {
                                           <?php
                                               $ambilsemuadatastock = mysqli_query($conn,"SELECT * from stock");
                                               while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                                  $ambildatasupplier = mysqli_query($conn, "SELECT * FROM supplier p, stock s where s.supplier = p.idsup");
+                                                  $idsup = $data['supplier'];
+                                                  $ambildatasupplier = mysqli_query($conn, "SELECT * FROM supplier p where $idsup = p.idsup");
                                                   $data1 = mysqli_fetch_array($ambildatasupplier);
+
                                                   $idbarang = $data['idobat'];
                                                   $namabarang = $data['merek_dagang'];
                                                   $harga = $data['harga'];
@@ -64,17 +66,17 @@ select {
                                                   $stock = $data['stock'];
                                                   $exp_date = $data['exp_date'];
                                                   $supplier = $data1['nama_supplier'];
-                                          ?>
+                                          ?>  
                                               <tr>
                                                   <td><?=$namabarang?></td>
-                                                  <td><?=$harga?></td>
+                                                  <td><?=number_format($harga, 0, ",", ".")?></td>
                                                   <td><?=$satuan?></td>
                                                   <td><?=$stock?></td>
                                                   <td><?=$exp_date?></td>
                                                   <td><?=$supplier?></td>
                                                   <td>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang;?>">Edit</button>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idbarang;?>">Delete</button>
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idbarang?>">Edit</button>
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idbarang?>">Delete</button>
                                                   </td>
                                               </tr>
                                               
@@ -188,7 +190,7 @@ select {
                 $exp_date = $data['exp_date'];
                 
       ?>
-<div class="modal fade" id="edit<?=$idbarang;?>">
+<div class="modal fade" id="edit<?=$idbarang?>">
   <div class="modal-dialog">
     <div class="modal-content">
     
@@ -203,13 +205,13 @@ select {
           <br>
           <form method="post">
           <label>Nama Obat</label>
-              <input type="text" name="merek_dagang" placeholder="Nama Obat" class="form-control" value="<?=$namabarang?>">
+              <input type="text" name="u_merek_dagang" placeholder="Nama Obat" class="form-control" value="<?=$namabarang?>">
               <br>
               <label>Harga</label>
-              <input type="text" name="harga" placeholder="Harga" class="form-control" value="<?=$harga?>">
+              <input type="text" name="u_harga" placeholder="Harga" class="form-control" value="<?=$harga?>">
               <br>
               <label>Satuan</label><br>
-              <select class="form-select" id="metode" name="satuan" id = "select">
+              <select class="form-select" id="metode" name="u_satuan" id = "select">
                 <option value="item">Item</option>
                 <option value="tablet">Tablet</option>
                 <option value="kapsul">Kapsul</option>
@@ -219,13 +221,13 @@ select {
               </select>
               <br>
               <label>Stock</label>
-              <input type="number" name="stock" placeholder="Stock" class="form-control" value="<?=$stock?>">
+              <input type="number" name="u_stock" placeholder="Stock" class="form-control" value="<?=$stock?>">
               <br>
               <label>Exp Date</label>
-              <input type="date" name="exp_date" placeholder="Exp Date" class="form-control" value="<?=$exp_date?>">
+              <input type="date" name="u_exp_date" placeholder="Exp Date" class="form-control" value="<?=$exp_date?>">
               <br>
               <label>Supplier</label>
-              <select name="supplier" class="form-control">
+              <select name="u_supplier" class="form-control">
                   <?php
                       $pilihansupplier = mysqli_query($conn,"select * from supplier");
                       while($fetcharray=mysqli_fetch_array($pilihansupplier)){
@@ -237,7 +239,8 @@ select {
                       }
                   ?>
               </select>
-              <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+              <input type="hidden" name="id_update" value="<?=$idbarang?>" class="form-control"/>
+              <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
           </form> 
       </div>
       
@@ -273,7 +276,7 @@ select {
       <!-- Modal footer -->
       <div class="modal-footer">
           <form method="post">
-              <input type="hidden" name="idb" value="<?=$idbarang?>;">
+              <input type="hidden" name="idb" value="<?=$idbarang?>">
               <button type="submit" class="btn btn-primary" name="hapusbarang">Yes</button>
           </form> 
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

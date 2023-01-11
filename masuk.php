@@ -49,7 +49,7 @@ include 'head.php';
                       <td>
                         <?= $kuantitas ?>
                       </td>
-                      <td><?= $besarharga ?></td>
+                      <td><?= number_format($besarharga, 0, ",", ".") ?></td>
                     </tr>
 
                     <?php

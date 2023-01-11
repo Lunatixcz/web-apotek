@@ -1,0 +1,43 @@
+#login-card {
+  background-color: white;
+}
+
+#filter-bar {
+  height: fit-content;
+  width: 100%;
+  background-color: #f8f8f8;
+  margin: 0.6rem;
+  padding: 3rem 1rem 1rem 1rem;
+  border: 0.5em;
+}
+
+#analisis-body {
+  padding: 3vh 4vw;
+}
+
+#analisis-bar {
+  height: 15vh;
+  background-color: rgb(249, 249, 249);
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5em;
+}
+
+#analisis-bar h4 {
+  margin-bottom: 1rem;
+}
+
+#analisis-bar button {
+  border: 2px solid #1681ed;
+  background-color: white;
+  color: #1681ed;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+  transition: 0.15s ease-in-out;
+}
+
+#analisis-bar button:hover {
+  background-color: #1681ed;
+  color: white;
+}
