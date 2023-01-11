@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `akses` (
   `akses_id` tinyint UNSIGNED NOT NULL,
   `jenis` varchar(20) NOT NULL
+)
 ;
 
 --
